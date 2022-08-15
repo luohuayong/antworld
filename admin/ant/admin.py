@@ -9,7 +9,7 @@ class GenusAdmin(admin.ModelAdmin):
     pass
 
 class BaseDataAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('chinese_name','latin_name','other_name')
 
 admin.site.register(Subfamily,SubfamilyAdmin)
 admin.site.register(Genus,GenusAdmin)
