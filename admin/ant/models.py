@@ -1,4 +1,7 @@
 from django.db import models
+import os
+import random
+from datetime import datetime
 
 # Create your models here.
 class Subfamily(models.Model):
@@ -76,3 +79,21 @@ class BaseData(models.Model):
     class Meta:
         verbose_name = '蚂蚁信息'
         verbose_name_plural = verbose_name
+
+def photo_path(instance, filename):
+    _, ext= os.path.splitext(filename)
+    filename = 'large.jpg'
+    p = 'images/'
+    t = datetime.now().strftime('%Y%m%d%H%M%S')
+    r = random.randint(1,999)
+    return f"{p}{t}{r:0>3}{ext}"
+
+class Media(models.Model):
+    basedata = models.ForeignKey(BaseData,on_delete=models.CASCADE,verbose_name='蚂蚁信息')
+    name = models.ImageField('文件名',upload_to=photo_path)
+    des = models.CharField('描述',max_length=255)
+    create_time = models.DateTimeField('创建时间',auto_now_add = True)
+    update_time = models.DateTimeField('更新时间',auto_now = True)
+    
+
+
